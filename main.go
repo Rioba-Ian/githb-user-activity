@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -32,9 +33,10 @@ type Commit struct {
 }
 
 func main() {
-	fmt.Println("fetching data from gh.")
+	ghUserName := flag.String("username", "Rioba-Ian", "github username that will be used")
+	flag.Parse()
 
-	latestEvent := getEvents("Rioba-Ian")
+	latestEvent := getEvents(*ghUserName)
 
 	_ = latestEvent
 }
@@ -44,6 +46,7 @@ func getEvents(username string) Event {
 	_ = username
 	var events []Event
 
+	fmt.Println("fetching data from gh.")
 	resp, err := http.Get("https://api.github.com/users/kamranahmedse/events")
 
 	if err != nil {
