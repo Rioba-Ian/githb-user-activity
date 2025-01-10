@@ -13,8 +13,8 @@ Example:
 Results
 
 ```json
-fetching data from gh...
-latest github user event {
+# fetching data from gh...
+# latest github user event {
         "id": "45387827921",
         "type": "PushEvent",
         "repo": {
@@ -43,7 +43,7 @@ latest github user event {
                 ]
         }
 }
-Pushed 1 commit(s) to kamranahmedse/developer-roadmap
+# Pushed 1 commit(s) to kamranahmedse/developer-roadmap
 ```
 
 ## Demo
