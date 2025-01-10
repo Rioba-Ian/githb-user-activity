@@ -5,7 +5,13 @@ import "encoding/json"
 type Event struct {
 	Id      string          `json:"id"`
 	Type    string          `json:"type"`
+	Repo    Repo            `json:"repo"`
 	Payload json.RawMessage `json:"payload"`
+}
+
+type Repo struct {
+	Id   int64  `json:"id"`
+	Name string `json:"name"`
 }
 
 type PushEventPayload struct {
@@ -68,4 +74,8 @@ type CreateEventPayload struct {
 	MasterBranch string `json:"master_branch"`
 	Description  string `json:"description"`
 	PusherType   string `json:"pusher_type"`
+}
+
+type ActivityMessage struct {
+	Message string
 }

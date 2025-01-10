@@ -8,7 +8,7 @@ import (
 	"github.com/Rioba-Ian/github-user-activity/models"
 )
 
-func DecodeResponse(data []byte) (interface{}, error) {
+func DecodeResponse(data []byte) (*string, error) {
 	var base models.Event
 
 	if err := json.Unmarshal(data, &base); err != nil {
@@ -45,6 +45,12 @@ func DecodeResponse(data []byte) (interface{}, error) {
 
 		result = payload
 
+		commits := len(payload.Commits)
+
+		activityMessage := ActivityResponse(fmt.Sprintf("Pushed %d commit(s) to %s", commits, base.Repo.Name))
+
+		return &activityMessage, nil
+
 	case "PullRequestEvent":
 		var payload models.PullRequestEventPayload
 		if err := json.Unmarshal(base.Payload, &payload); err != nil {
@@ -66,10 +72,12 @@ func DecodeResponse(data []byte) (interface{}, error) {
 	default:
 		return nil, fmt.Errorf("unknown type: %s", base.Type)
 	}
-	return result, nil
+
+	fmt.Println(result)
+	return nil, nil
 }
 
-func HandleResponse(username string) {
+func HandleResponse(username string) string {
 	var events []models.Event
 	fmt.Println("fetching data from gh...")
 	resp, err := http.Get(fmt.Sprintf("https://api.github.com/users/%s/events", username))
@@ -86,7 +94,7 @@ func HandleResponse(username string) {
 
 	latestEvent, _ := json.MarshalIndent(events[0], "", "	")
 
-	// fmt.Println("latest github user event", string(latestEvent))
+	fmt.Println("latest github user event", string(latestEvent))
 
 	decodedResult, err := DecodeResponse(latestEvent)
 
@@ -94,6 +102,10 @@ func HandleResponse(username string) {
 		fmt.Printf("failed to decode response from events %s", err)
 	}
 
-	fmt.Println(decodedResult)
+	return *decodedResult
 
+}
+
+func ActivityResponse(message string) string {
+	return message
 }
