@@ -15,8 +15,6 @@ func DecodeResponse(data []byte) (*string, error) {
 		return nil, fmt.Errorf("failed to decode data to json: %w", err)
 	}
 
-	var result interface{}
-
 	switch base.Type {
 	case "CreateEvent":
 		var payload models.CreateEventPayload
@@ -24,8 +22,6 @@ func DecodeResponse(data []byte) (*string, error) {
 			return nil, fmt.Errorf("failed to decode create event payload data to json: %w", err)
 
 		}
-
-		result = payload
 
 		activityMessage := ActivityResponse("created a new repository")
 
@@ -38,8 +34,6 @@ func DecodeResponse(data []byte) (*string, error) {
 
 		}
 
-		result = payload
-
 		activityMessage := ActivityResponse("Starred a new repo")
 
 		return &activityMessage, nil
@@ -50,8 +44,6 @@ func DecodeResponse(data []byte) (*string, error) {
 			return nil, fmt.Errorf("failed to decode push event payload data to json: %w", err)
 
 		}
-
-		result = payload
 
 		commits := len(payload.Commits)
 
@@ -66,8 +58,6 @@ func DecodeResponse(data []byte) (*string, error) {
 
 		}
 
-		result = payload
-
 		pullRequestAction := PullRequestHandler(payload.Action)
 
 		activityMessage := ActivityResponse(pullRequestAction)
@@ -80,8 +70,6 @@ func DecodeResponse(data []byte) (*string, error) {
 			return nil, fmt.Errorf("failed to decode issue comment event payload data to json: %w", err)
 
 		}
-
-		result = payload
 
 		var activityMessage string
 
@@ -97,8 +85,6 @@ func DecodeResponse(data []byte) (*string, error) {
 		return nil, fmt.Errorf("unknown type: %s", base.Type)
 	}
 
-	fmt.Println(result)
-	return nil, nil
 }
 
 func HandleResponse(username string) string {

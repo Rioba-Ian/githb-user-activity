@@ -58,4 +58,8 @@ The activities covered from github events api so far are:
 2. PullRequestEvent
 3. IssuesEvent
 4. IssueCommentEvent
-5. WatchhEvent
+5. WatchEvent
+
+## CONTRIBUTION
+
+The handled activity types are few and only the most basic ones. Feel free to add other activity types. You can start of by adding them to the <code>./models/models.go</code> file
