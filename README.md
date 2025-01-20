@@ -63,3 +63,7 @@ The activities covered from github events api so far are:
 ## CONTRIBUTION
 
 The handled activity types are few and only the most basic ones. Feel free to add other activity types. You can start of by adding them to the <code>./models/models.go</code> file
+
+### ACKNOWLEDGMENT
+
+This project was a part of [Roadmap to Backend Development Projects](https://roadmap.sh/projects/github-user-activity)
